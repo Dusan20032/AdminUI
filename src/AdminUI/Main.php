@@ -52,7 +52,7 @@ class Main extends PluginBase implements Listener {
 			break;
 			}					
 		});					
-		$form->setTitle(TextFormat::BLUE . "--= " . TextFormat::RED . "AdminUI" . TextFormat::BLUE . " =--");
+		$form->setTitle(TextFormat::BLUE . "--= " . TextFormat::RED . "MysticRaid - AdminUI" . TextFormat::BLUE . " =--");
 		$form->setContent("");
 		$form->addButton(TextFormat::BLACK . "BACK");
 		$form->addButton(TextFormat::RED . "BAN");
