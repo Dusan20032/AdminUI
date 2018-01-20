@@ -27,7 +27,7 @@ class Main extends PluginBase implements Listener {
 	public function onCommand(CommandSender $sender, Command $cmd, string $label,array $args): bool{
 		$player = $sender->getPlayer();
 		switch($cmd->getName()){
-			case "admin":
+			case "a":
 			$this->mainFrom($player);
 			break;		
 		}
@@ -50,6 +50,9 @@ class Main extends PluginBase implements Listener {
 			case 2:
 			$this->kickUI($player);
 			break;
+			case 3:
+			$this->ban-ipUI($player);
+			break;
 			}					
 		});					
 		$form->setTitle(TextFormat::BLUE . "--= " . TextFormat::RED . "MysticRaid - AdminUI" . TextFormat::BLUE . " =--");
@@ -57,6 +60,7 @@ class Main extends PluginBase implements Listener {
 		$form->addButton(TextFormat::BLACK . "BACK");
 		$form->addButton(TextFormat::RED . "BAN");
 		$form->addButton(TextFormat::RED . "KICK");
+		$form->addButton(TextFormat::RED . "BAN-IP");
 		//$form->addButton(TextFormat::RED . "INFO");
 		$form->sendToPlayer($player);
 	}
@@ -75,6 +79,7 @@ class Main extends PluginBase implements Listener {
 		$form->setTitle(TextFormat::BOLD . "BAN PLAYER");
 		$form->addInput("PLAYER NAME");
 		$form->addInput("REASON");
+		$form->addInput("TVUJ NICK");
 		$form->sendToPlayer($player);
 	}
 	
@@ -92,6 +97,25 @@ class Main extends PluginBase implements Listener {
 		$form->setTitle(TextFormat::BOLD . "KICK PLAYER");
 		$form->addInput("PLAYER NAME");
 		$form->addInput("REASON");
+		$form->addInput("TVUJ NICK");
+		$form->sendToPlayer($player);
+	}
+	
+	public function ban-ipUI($player){ 
+		$api = $this->getServer()->getPluginManager()->getPlugin("FormAPI"); 
+		$form = $api->createCustomForm(function (Player $event, array $data){
+		$player = $event->getPlayer();
+		$result = $data[0];
+		if($result != null){
+		$this->targetName = $result;
+		$this->reason = $data[1];
+		$this->getServer()->dispatchCommand(new ConsoleCommandSender, "ban-ip " . $this->targetName . " " . $this->reason);
+		}
+		});
+		$form->setTitle(TextFormat::BOLD . "BAN-IP PLAYER");
+		$form->addInput("PLAYER NAME");
+		$form->addInput("REASON");
+		$form->addInput("TVUJ NICK");
 		$form->sendToPlayer($player);
 	}
 }
